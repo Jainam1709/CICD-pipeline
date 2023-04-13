@@ -41,6 +41,17 @@ pipeline {
                 }
             }
         }
+          stage('test') {
+                  when{
+                     expression{
+                         params.executeTest
+                     }
+                  }
+                    steps {
+                        script{echo 'testing the application...'
+                        sh 'mvn test'}
+                    }
+                }
         stage('build') {
 
             steps {
@@ -55,17 +66,7 @@ pipeline {
                     }
             }
         }
-      stage('test') {
-          when{
-             expression{
-                 params.executeTest
-             }
-          }
-            steps {
-                script{echo 'testing the application...'
-                sh 'mvn test'}
-            }
-        }
+
       stage('deploy') {
         input{
             message "Select the environment to deploy"
